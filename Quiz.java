@@ -22,22 +22,22 @@ public class Quiz implements ActionListener{
 
     //choices of answers
     String [][] choices = {
-        {"11", "2", "1", "That's a trick question"},
-        {"CSCC34", "CSCC999", "CSCC21", "CSCC20"},
-        {"C++", "Python", "Java", "Gradle"},
-        {"1933", "1925", "2020", "1831"},
-        {"St. Francis of Asissi", "St. Ignatius of Loyola", "St. Peter Faber", "St. Francis Xavier"},
-        {"Wakanda", "Hong Kong", "Skull Island", "Taiwan"},
-        {"Smith", "Brent", "Michael", "John"},
-        {"1944", "1945", "1946", "1947"},
-        {"-1", "1", "2", "4"},
-        {"Nicholas Cage", "Nicholas Nickleby", "Nicolaus Copernicus", "Nicklas Bendtner"}
+        {"11", "2", "1"},
+        {"CSCC34", "CSCC21", "CSCC20"},
+        {"C++", "Python", "Java"},
+        {"1933", "1925", "2020"},
+        {"St. Ignatius of Loyola", "St. Peter Faber", "St. Francis Xavier"},
+        {"Wakanda", "Hong Kong", "Taiwan"},
+        {"Smith", "Brent", "John"},
+        {"1944", "1945", "1946"},
+        { "1", "2", "4"},
+        {"Nicholas Cage", "Nicholas Nickleby", "Nicolaus Copernicus"}
 
 
     };
 
     //answers
-    char[] answers = { 'B', 'D', 'C', 'A', 'B', 'B', 'A', 'B', 'D', 'C'};
+    char[] answers = { 'B', 'C', 'C', 'A', 'A', 'B', 'A', 'B', 'C', 'C'};
  
     char guess;
     char answer;
@@ -55,14 +55,13 @@ public class Quiz implements ActionListener{
     JButton bA = new JButton();
     JButton bB = new JButton();
     JButton bC = new JButton();
-    JButton bD = new JButton();
 
     JLabel alabelA = new JLabel();
     JLabel alabelB = new JLabel();
     JLabel alabelC = new JLabel();
-    JLabel alabelD = new JLabel();
     JLabel time = new JLabel();
     JLabel seconds_left = new JLabel();
+    JLabel who_player = new JLabel();
     JTextField player_one = new JTextField();
     JTextField player_two = new JTextField();
 
@@ -122,12 +121,6 @@ public class Quiz implements ActionListener{
         bC.addActionListener(this);
         bC.setText("C");
 
-        bD.setBounds(0, 250, 50, 50);
-        bD.setFont(new Font("Helvetica", Font.PLAIN, 20));
-        bD.setFocusable(false);
-        bD.addActionListener(this);
-        bD.setText("D");
-
         alabelA.setBounds(60,100,200,50);
         alabelA.setBackground(new Color(50,50,50));
         alabelA.setForeground(new Color(25, 255, 0));
@@ -142,11 +135,6 @@ public class Quiz implements ActionListener{
         alabelC.setBackground(new Color(50,50,50));
         alabelC.setForeground(new Color(25, 255, 0));
         alabelC.setFont(new Font("Helvetica", Font.PLAIN, 16));
-
-        alabelD.setBounds(60,250,200,50);
-        alabelD.setBackground(new Color(50,50,50));
-        alabelD.setForeground(new Color(25, 255, 0));
-        alabelD.setFont(new Font("Helvetica", Font.PLAIN, 16));
 
         seconds_left.setBounds(300, 0, 100, 100);
         seconds_left.setBackground(new Color(25,25,25));
@@ -179,6 +167,7 @@ public class Quiz implements ActionListener{
         player_two.setHorizontalAlignment(JTextField.CENTER);
         player_two.setEditable(false);
 
+
         frame.add(player_one);
         frame.add(player_two);
         frame.add(time);
@@ -187,12 +176,10 @@ public class Quiz implements ActionListener{
         frame.add(alabelA);
         frame.add(alabelB);
         frame.add(alabelC);
-        frame.add(alabelD);
 
         frame.add(bA);
         frame.add(bB);
         frame.add(bC);
-        frame.add(bD);
         frame.add(tarea);
         frame.add(tfield);
         frame.setVisible(true);
@@ -208,12 +195,11 @@ public class Quiz implements ActionListener{
 
         }
         else{
-            tfield.setText("Question " + (index + 1));
+            tfield.setText("Question for player " + currentPlayer);
             tarea.setText(questions[index]);
             alabelA.setText(choices[index][0]);
             alabelB.setText(choices[index][1]);
             alabelC.setText(choices[index][2]);
-            alabelD.setText(choices[index][3]);
             timer.start();
         }
     }
@@ -225,7 +211,6 @@ public class Quiz implements ActionListener{
         bA.setEnabled(false);
         bB.setEnabled(false);
         bC.setEnabled(false);
-        bD.setEnabled(false);
 
         if(e.getSource()==bA){
             answer = 'A';
@@ -254,15 +239,6 @@ public class Quiz implements ActionListener{
                 ptwo_score++;
             }
         }
-        if(e.getSource()==bD){
-            answer = 'D';
-            if(answer == answers[index]){
-                if(currentPlayer.equals("one"))
-                pone_score++;
-                else
-                ptwo_score++;
-            }
-        }
 
         player_one.setText("P1: " + Integer.toString(pone_score));
         player_two.setText("P2: " +Integer.toString(ptwo_score));
@@ -283,7 +259,6 @@ public class Quiz implements ActionListener{
         bA.setEnabled(false);
         bB.setEnabled(false);
         bC.setEnabled(false);
-        bD.setEnabled(false);
 
         if(answers[index] != 'A')
             alabelA.setForeground(new Color(255,0,0));
@@ -291,8 +266,6 @@ public class Quiz implements ActionListener{
             alabelB.setForeground(new Color(255,0,0));
         if(answers[index] != 'C')
             alabelC.setForeground(new Color(255,0,0));
-        if(answers[index] != 'D')
-            alabelD.setForeground(new Color(255,0,0));
         
         Timer pause = new Timer(1000, new ActionListener() {
             @Override
@@ -301,7 +274,6 @@ public class Quiz implements ActionListener{
                 alabelA.setForeground(new Color(25,255,0));
                 alabelB.setForeground(new Color(25,255,0));
                 alabelC.setForeground(new Color(25,255,0));
-                alabelD.setForeground(new Color(25,255,0));
 
                 answer = ' ';
                 secs = 15;
@@ -309,7 +281,6 @@ public class Quiz implements ActionListener{
                 bA.setEnabled(true);
                 bB.setEnabled(true);
                 bC.setEnabled(true);
-                bD.setEnabled(true);
                 index++;
                 nextQuestion();
             }
@@ -320,21 +291,15 @@ public class Quiz implements ActionListener{
         currentPlayer = currentPlayer == "one" ? "two" : "one";
     }
 
-
     public void results(){
-
         bA.setEnabled(false);
         bB.setEnabled(false);
         bC.setEnabled(false);
-        bD.setEnabled(false);
 
         tfield.setText("Winner! " + "Player " + currentPlayer);
         tarea.setText("");
         alabelA.setText("");
         alabelB.setText("");
         alabelC.setText("");
-        alabelD.setText("");
-
-        
     }
 }
